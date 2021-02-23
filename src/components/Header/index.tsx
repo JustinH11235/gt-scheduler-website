@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useMemo, useRef } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+  useState
+} from 'react';
 import 'react-virtualized/styles.css';
 import './stylesheet.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -41,6 +47,8 @@ const Header = ({
   const [{ term, oscar, pinnedCrns }, { setTerm }] = useContext(TermContext);
   const [terms] = useContext(TermsContext);
   const [theme, setTheme] = useContext(ThemeContext);
+  const [version, setVersion] = useState('Primary');
+  const versionList = ['Primary', 'Secondary', 'Tertiary'];
   const captureRef = useRef<HTMLDivElement>(null);
 
   const handleThemeChange = useCallback(() => {
@@ -145,6 +153,17 @@ const Header = ({
           label: getSemesterName(currentTerm)
         }))}
         className="semester"
+      />
+
+      {/* Version selector */}
+      <Select
+        onChange={setVersion}
+        value={version}
+        options={versionList.map((currentVersion) => ({
+          value: currentVersion,
+          label: currentVersion
+        }))}
+        className="version"
       />
 
       <span className="credits">{totalCredits} Credits</span>
