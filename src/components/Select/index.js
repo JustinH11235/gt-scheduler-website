@@ -21,6 +21,10 @@ export default function Select({ className, value, options }) {
     setCurrentValue(value);
   }, [value]);
 
+  useEffect(() => {
+    setOpened(inputting);
+  }, [inputting]);
+
   const optionsObtained = options;
   const selectedOption = optionsObtained.find(
     (option) => option.innerValue === currentValue
@@ -41,7 +45,7 @@ export default function Select({ className, value, options }) {
       {opened && (
         <div
           className="intercept"
-          onClick={() => (!inputting ? setOpened(false) : null)}
+          onClick={() => (!inputting ? setOpened(false) : setOpened(true))}
         />
       )}
       {opened && (
@@ -59,6 +63,8 @@ export default function Select({ className, value, options }) {
               <div className="option" key={innerValue + innerLabel}>
                 {inputting && inputIndex === innerValue ? (
                   <input
+                    /* eslint-disable-next-line jsx-a11y/no-autofocus */
+                    autoFocus
                     type="text"
                     key={`input${innerValue}`}
                     value={versionName}
@@ -92,7 +98,7 @@ export default function Select({ className, value, options }) {
                         setInputting(false);
                         setInputIndex('');
                       } else {
-                        setVersionName('');
+                        setVersionName(innerValue);
                         setInputting(true);
                         setInputIndex(innerValue);
                       }

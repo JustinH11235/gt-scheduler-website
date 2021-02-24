@@ -15,6 +15,7 @@
     bottom: 0;
     left: 0;
     right: 0;
+    cursor: default;
   }
 
   .option-container {
@@ -37,6 +38,9 @@
       .Button{
         flex-shrink: 0;
         flex-grow: 1;
+      }
+      input{
+        padding: 12px;
       }
     }
   }
