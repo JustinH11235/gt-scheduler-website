@@ -194,7 +194,14 @@ const Header = ({
           iconsAndFunctions:
             currentVersion === 'New'
               ? { icons: ['add'], functions: [null] }
-              : { icons: ['edit', 'delete'], functions: [null, null] }
+              : {
+                  icons: ['edit', 'delete'],
+                  functions: {
+                    edit: (name: string) => {
+                      versionList[versionIndex - 1] = name;
+                    }
+                  }
+                }
         }))}
         className="version"
       />
