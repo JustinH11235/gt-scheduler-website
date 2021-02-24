@@ -34,6 +34,19 @@ export default function Select({ className, value, options }) {
     const input = e.target.value.trim();
     setVersionName(`${input}`);
   };
+  const handleKeyDown = (innerValue, iconsAndFunctions, index, e) => {
+    if (e.key === 'Enter') {
+      if (versionName === '') {
+        setVersionName('Blank');
+      }
+      iconsAndFunctions.functions.edit(versionName);
+      setCurrentValue(innerValue === currentValue ? versionName : currentValue);
+      optionsObtained[index].innerValue = versionName;
+      optionsObtained[index].innerLabel = versionName;
+      setInputting(false);
+      setInputIndex('');
+    }
+  };
 
   return (
     <div
@@ -70,6 +83,9 @@ export default function Select({ className, value, options }) {
                     value={versionName}
                     onChange={handleChangeVersionName}
                     placeholder={innerValue}
+                    onKeyDown={(e) => {
+                      handleKeyDown(innerValue, iconsAndFunctions, index, e);
+                    }}
                   />
                 ) : (
                   <Button key={innerValue} onClick={() => onClick(innerValue)}>
