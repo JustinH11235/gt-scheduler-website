@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCaretDown,
@@ -14,16 +14,21 @@ export default function Select({ className, value, options }) {
   const [opened, setOpened] = useState(false);
   const [inputIndex, setInputIndex] = useState('');
   const [inputting, setInputting] = useState(false);
-  const [lastIndex, setLastIndex] = useState('');
   const [versionName, setVersionName] = useState('');
+  const [currentValue, setCurrentValue] = useState(value);
 
-  const selectedOption = options.find((option) => option.innerValue === value);
-  const label = selectedOption ? selectedOption.innerLabel : '-';
+  useEffect(() => {
+    setCurrentValue(value);
+  }, [value]);
+
   const optionsObtained = options;
-
+  const selectedOption = optionsObtained.find(
+    (option) => option.innerValue === currentValue
+  );
+  const label = selectedOption ? selectedOption.innerLabel : '-';
   const handleChangeVersionName = (e) => {
     const input = e.target.value.trim();
-    setVersionName(input);
+    setVersionName(`${input}`);
   };
 
   return (
@@ -65,9 +70,7 @@ export default function Select({ className, value, options }) {
                     {iconsAndFunctions.icons.includes('add') ? (
                       <FontAwesomeIcon fixedWidth icon={faPlus} />
                     ) : null}
-                    {!inputting && lastIndex === innerValue
-                      ? versionName
-                      : innerLabel}
+                    {innerLabel}
                   </Button>
                 )}
                 {iconsAndFunctions.icons.includes('edit') ? (
@@ -79,10 +82,14 @@ export default function Select({ className, value, options }) {
                           setVersionName('Blank');
                         }
                         iconsAndFunctions.functions.edit(versionName);
+                        setCurrentValue(
+                          innerValue === currentValue
+                            ? versionName
+                            : currentValue
+                        );
                         optionsObtained[index].innerValue = versionName;
                         optionsObtained[index].innerLabel = versionName;
                         setInputting(false);
-                        setLastIndex(inputIndex);
                         setInputIndex('');
                       } else {
                         setVersionName('');

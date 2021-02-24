@@ -76,7 +76,7 @@ const Header = ({
   };
 
   const setVersionIndexBasedOnText = (text: string) => {
-    setVersionIndex(possibleVersions.indexOf(text) + 1);
+    setVersionIndex(versionList.indexOf(text) + 1);
   };
 
   const handleThemeChange = useCallback(() => {
