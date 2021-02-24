@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown, faPlus } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCaretDown,
+  faEdit,
+  faPlus,
+  faTrashAlt
+} from '@fortawesome/free-solid-svg-icons';
 import { classes } from '../../utils';
 import { Button } from '..';
 import './stylesheet.scss';
@@ -8,8 +13,8 @@ import './stylesheet.scss';
 export default function Select({ className, value, options }) {
   const [opened, setOpened] = useState(false);
 
-  const selectedOption = options.find((option) => option.value === value);
-  const label = selectedOption ? selectedOption.label : '-';
+  const selectedOption = options.find((option) => option.innerValue === value);
+  const label = selectedOption ? selectedOption.innerLabel : '-';
 
   return (
     <div
@@ -21,19 +26,31 @@ export default function Select({ className, value, options }) {
       {opened && <div className="intercept" onClick={() => setOpened(false)} />}
       {opened && (
         <div className="option-container">
-          {/* eslint-disable-next-line no-shadow */}
-          {options.map(({ value, label, onClick }) => (
-            <Button
-              className="option"
-              key={value}
-              onClick={() => onClick(value)}
-            >
-              {label === 'New' ? (
-                <FontAwesomeIcon fixedWidth icon={faPlus} />
-              ) : null}
-              {label}
-            </Button>
-          ))}
+          {options.map(
+            ({
+              innerValue,
+              innerLabel,
+              onClick,
+              iconsAndFunctions = { icons: [], function: [] }
+            }) => (
+              <Button
+                className="option"
+                key={innerValue}
+                onClick={() => onClick(innerValue)}
+              >
+                {iconsAndFunctions.icons.includes('add') ? (
+                  <FontAwesomeIcon fixedWidth icon={faPlus} />
+                ) : null}
+                {innerLabel}
+                {iconsAndFunctions.icons.includes('edit') ? (
+                  <FontAwesomeIcon fixedWidth icon={faEdit} />
+                ) : null}
+                {iconsAndFunctions.icons.includes('delete') ? (
+                  <FontAwesomeIcon fixedWidth icon={faTrashAlt} />
+                ) : null}
+              </Button>
+            )
+          )}
         </div>
       )}
     </div>

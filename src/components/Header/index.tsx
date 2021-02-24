@@ -176,8 +176,8 @@ const Header = ({
       <Select
         value={term}
         options={terms.map((currentTerm) => ({
-          value: currentTerm,
-          label: getSemesterName(currentTerm),
+          innerValue: currentTerm,
+          innerLabel: getSemesterName(currentTerm),
           onClick: setTerm
         }))}
         className="semester"
@@ -187,10 +187,14 @@ const Header = ({
       <Select
         value={versionList[versionIndex - 1]}
         options={versionList.map((currentVersion) => ({
-          value: currentVersion,
-          label: currentVersion,
+          innerValue: currentVersion,
+          innerLabel: currentVersion,
           onClick:
-            currentVersion === 'New' ? addVersion : setVersionIndexBasedOnText
+            currentVersion === 'New' ? addVersion : setVersionIndexBasedOnText,
+          iconsAndFunctions:
+            currentVersion === 'New'
+              ? { icons: ['add'], functions: [null] }
+              : { icons: ['edit', 'delete'], functions: [null, null] }
         }))}
         className="version"
       />
