@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { classes } from '../../utils';
 import { Button } from '..';
 import './stylesheet.scss';
@@ -28,6 +28,9 @@ export default function Select({ className, value, options }) {
               key={value}
               onClick={() => onClick(value)}
             >
+              {label === 'New' ? (
+                <FontAwesomeIcon fixedWidth icon={faPlus} />
+              ) : null}
               {label}
             </Button>
           ))}
