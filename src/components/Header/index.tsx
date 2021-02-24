@@ -186,7 +186,7 @@ const Header = ({
       {/* Version selector */}
       <Select
         value={versionList[versionIndex - 1]}
-        options={versionList.map((currentVersion) => ({
+        options={versionList.map((currentVersion, index) => ({
           innerValue: currentVersion,
           innerLabel: currentVersion,
           onClick:
@@ -198,7 +198,7 @@ const Header = ({
                   icons: ['edit', 'delete'],
                   functions: {
                     edit: (name: string) => {
-                      versionList[versionIndex - 1] = name;
+                      versionList[index] = name;
                     }
                   }
                 }

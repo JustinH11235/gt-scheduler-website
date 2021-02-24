@@ -14,10 +14,12 @@ export default function Select({ className, value, options }) {
   const [opened, setOpened] = useState(false);
   const [inputIndex, setInputIndex] = useState('');
   const [inputting, setInputting] = useState(false);
+  const [lastIndex, setLastIndex] = useState('');
   const [versionName, setVersionName] = useState('');
 
   const selectedOption = options.find((option) => option.innerValue === value);
   const label = selectedOption ? selectedOption.innerLabel : '-';
+  const optionsObtained = options;
 
   const handleChangeVersionName = (e) => {
     const input = e.target.value.trim();
@@ -39,13 +41,16 @@ export default function Select({ className, value, options }) {
       )}
       {opened && (
         <div className="option-container">
-          {options.map(
-            ({
-              innerValue,
-              innerLabel,
-              onClick,
-              iconsAndFunctions = { icons: [], functions: {} }
-            }) => (
+          {optionsObtained.map(
+            (
+              {
+                innerValue,
+                innerLabel,
+                onClick,
+                iconsAndFunctions = { icons: [], functions: {} }
+              },
+              index
+            ) => (
               <div className="option" key={innerValue + innerLabel}>
                 {inputting && inputIndex === innerValue ? (
                   <input
@@ -60,7 +65,9 @@ export default function Select({ className, value, options }) {
                     {iconsAndFunctions.icons.includes('add') ? (
                       <FontAwesomeIcon fixedWidth icon={faPlus} />
                     ) : null}
-                    {inputIndex === innerValue ? versionName : innerLabel}
+                    {!inputting && lastIndex === innerValue
+                      ? versionName
+                      : innerLabel}
                   </Button>
                 )}
                 {iconsAndFunctions.icons.includes('edit') ? (
@@ -68,8 +75,15 @@ export default function Select({ className, value, options }) {
                     key={`${innerValue}edit`}
                     onClick={() => {
                       if (innerValue === inputIndex) {
+                        if (versionName === '') {
+                          setVersionName('Blank');
+                        }
                         iconsAndFunctions.functions.edit(versionName);
+                        optionsObtained[index].innerValue = versionName;
+                        optionsObtained[index].innerLabel = versionName;
                         setInputting(false);
+                        setLastIndex(inputIndex);
+                        setInputIndex('');
                       } else {
                         setVersionName('');
                         setInputting(true);
