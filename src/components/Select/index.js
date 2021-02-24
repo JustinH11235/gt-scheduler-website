@@ -33,7 +33,7 @@ export default function Select({ className, value, options }) {
               onClick,
               iconsAndFunctions = { icons: [], function: [] }
             }) => (
-              <Button className="option">
+              <div className="option">
                 <Button key={innerValue} onClick={() => onClick(innerValue)}>
                   {iconsAndFunctions.icons.includes('add') ? (
                     <FontAwesomeIcon fixedWidth icon={faPlus} />
@@ -58,7 +58,7 @@ export default function Select({ className, value, options }) {
                     <FontAwesomeIcon fixedWidth icon={faTrashAlt} />
                   </Button>
                 ) : null}
-              </Button>
+              </div>
             )
           )}
         </div>
