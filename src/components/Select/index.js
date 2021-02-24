@@ -33,20 +33,30 @@ export default function Select({ className, value, options }) {
               onClick,
               iconsAndFunctions = { icons: [], function: [] }
             }) => (
-              <Button
-                className="option"
-                key={innerValue}
-                onClick={() => onClick(innerValue)}
-              >
-                {iconsAndFunctions.icons.includes('add') ? (
-                  <FontAwesomeIcon fixedWidth icon={faPlus} />
-                ) : null}
-                {innerLabel}
+              <Button className="option">
+                <Button key={innerValue} onClick={() => onClick(innerValue)}>
+                  {iconsAndFunctions.icons.includes('add') ? (
+                    <FontAwesomeIcon fixedWidth icon={faPlus} />
+                  ) : null}
+                  {innerLabel}
+                </Button>
                 {iconsAndFunctions.icons.includes('edit') ? (
-                  <FontAwesomeIcon fixedWidth icon={faEdit} />
+                  <Button
+                    key={`${innerValue}edit`}
+                    classname="icon-button"
+                    onClick={() => null}
+                  >
+                    <FontAwesomeIcon fixedWidth icon={faEdit} />
+                  </Button>
                 ) : null}
                 {iconsAndFunctions.icons.includes('delete') ? (
-                  <FontAwesomeIcon fixedWidth icon={faTrashAlt} />
+                  <Button
+                    key={`${innerValue}edit`}
+                    classname="icon-button"
+                    onClick={() => null}
+                  >
+                    <FontAwesomeIcon fixedWidth icon={faTrashAlt} />
+                  </Button>
                 ) : null}
               </Button>
             )

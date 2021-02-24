@@ -29,8 +29,14 @@
     overflow-y: auto;
 
     .option {
-      justify-content: flex-start;
+      justify-content: center;
       white-space: nowrap;
+      padding: 0;
+      transition: none;
+      cursor: default;
+      &:hover {
+        background-color: inherit;
+      }
     }
   }
 }
