@@ -5,7 +5,7 @@ import { classes } from '../../utils';
 import { Button } from '..';
 import './stylesheet.scss';
 
-export default function Select({ className, value, onChange, options }) {
+export default function Select({ className, value, options }) {
   const [opened, setOpened] = useState(false);
 
   const selectedOption = options.find((option) => option.value === value);
@@ -22,11 +22,11 @@ export default function Select({ className, value, onChange, options }) {
       {opened && (
         <div className="option-container">
           {/* eslint-disable-next-line no-shadow */}
-          {options.map(({ value, label }) => (
+          {options.map(({ value, label, onClick }) => (
             <Button
               className="option"
               key={value}
-              onClick={() => onChange(value)}
+              onClick={() => onClick(value)}
             >
               {label}
             </Button>

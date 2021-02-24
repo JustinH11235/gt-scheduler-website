@@ -32,12 +32,12 @@ export default function CombinationContainer() {
   return (
     <div className="CombinationContainer">
       <Select
-        // eslint-disable-next-line no-shadow
-        onChange={(sortingOptionIndex) => patchTermData({ sortingOptionIndex })}
         value={sortingOptionIndex}
         options={oscar.sortingOptions.map((sortingOption, i) => ({
           value: i,
-          label: sortingOption.label
+          label: sortingOption.label,
+          // eslint-disable-next-line no-shadow
+          onClick: (sortingOptionIndex) => patchTermData({ sortingOptionIndex })
         }))}
       />
       <Button
