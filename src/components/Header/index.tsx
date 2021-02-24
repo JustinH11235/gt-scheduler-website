@@ -47,7 +47,8 @@ const Header = ({
   const [{ term, oscar, pinnedCrns }, { setTerm }] = useContext(TermContext);
   const [terms] = useContext(TermsContext);
   const [theme, setTheme] = useContext(ThemeContext);
-  const [version, setVersion] = useState('Primary');
+  const [versionIndex, setVersionIndex] = useState(1);
+  const [versionList] = useState(['Primary', 'New']);
   const possibleVersions = [
     'Primary',
     'Secondary',
@@ -60,8 +61,23 @@ const Header = ({
     'Nonary',
     'Denary'
   ];
-  const versionList = ['Primary', 'New'];
   const captureRef = useRef<HTMLDivElement>(null);
+
+  const addVersion = () => {
+    versionList.splice(
+      versionList.length - 1,
+      0,
+      possibleVersions[versionList.length - 1]
+    );
+    setVersionIndex(versionList.length - 1);
+    if (versionIndex === 9) {
+      versionList.pop();
+    }
+  };
+
+  const setVersionIndexBasedOnText = (text: string) => {
+    setVersionIndex(possibleVersions.indexOf(text) + 1);
+  };
 
   const handleThemeChange = useCallback(() => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -169,11 +185,12 @@ const Header = ({
 
       {/* Version selector */}
       <Select
-        value={version}
+        value={versionList[versionIndex - 1]}
         options={versionList.map((currentVersion) => ({
           value: currentVersion,
           label: currentVersion,
-          onClick: setVersion
+          onClick:
+            currentVersion === 'New' ? addVersion : setVersionIndexBasedOnText
         }))}
         className="version"
       />
