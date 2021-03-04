@@ -125,7 +125,12 @@ export default function Select({ className, value, options }) {
                   </Button>
                 ) : null}
                 {iconsAndFunctions.icons.includes('delete') ? (
-                  <Button key={`${innerValue}delete`} onClick={() => null}>
+                  <Button
+                    key={`${innerValue}delete`}
+                    onClick={() => {
+                      iconsAndFunctions.functions.delete();
+                    }}
+                  >
                     <FontAwesomeIcon fixedWidth icon={faTrashAlt} />
                   </Button>
                 ) : null}
