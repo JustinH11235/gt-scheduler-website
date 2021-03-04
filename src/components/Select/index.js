@@ -98,7 +98,7 @@ export default function Select({ className, value, options }) {
                 {iconsAndFunctions.icons.includes('edit') ? (
                   <Button
                     key={`${innerValue}edit`}
-                    onClick={() => {
+                    onClick={(e) => {
                       if (innerValue === inputIndex) {
                         if (versionName === '') {
                           setVersionName('Blank');
@@ -117,6 +117,7 @@ export default function Select({ className, value, options }) {
                         setVersionName(innerValue);
                         setInputting(true);
                         setInputIndex(innerValue);
+                        e.stopPropagation();
                       }
                     }}
                   >
