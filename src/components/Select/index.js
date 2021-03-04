@@ -6,6 +6,7 @@ import {
   faPlus,
   faTrashAlt
 } from '@fortawesome/free-solid-svg-icons';
+import swal from '@sweetalert/with-react';
 import { classes } from '../../utils';
 import { Button } from '..';
 import './stylesheet.scss';
@@ -128,7 +129,21 @@ export default function Select({ className, value, options }) {
                   <Button
                     key={`${innerValue}delete`}
                     onClick={() => {
-                      iconsAndFunctions.functions.delete();
+                      swal({
+                        buttons: ['Cancel', 'Delete'],
+                        content: (
+                          <div>
+                            <p>
+                              Are you sure you want to delete {innerLabel}{' '}
+                              schedule?
+                            </p>
+                          </div>
+                        )
+                      }).then((val) => {
+                        if (val) {
+                          iconsAndFunctions.functions.delete();
+                        }
+                      });
                     }}
                   >
                     <FontAwesomeIcon fixedWidth icon={faTrashAlt} />
