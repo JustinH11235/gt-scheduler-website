@@ -6,7 +6,12 @@ import { classes } from '../../utils';
 import { Header, Scheduler, Map, NavDrawer, NavMenu, Attribution } from '..';
 import { Oscar } from '../../beans';
 import { useCookie, useJsonCookie, useMobile } from '../../hooks';
-import { TermContext, TermsContext, ThemeContext } from '../../contexts';
+import {
+  TermContext,
+  TermsContext,
+  ThemeContext,
+  VersionsContext
+} from '../../contexts';
 import { defaultTermData } from '../../types';
 
 import 'react-virtualized/styles.css';
@@ -16,6 +21,7 @@ const NAV_TABS = ['Scheduler', 'Map'];
 
 const App = () => {
   const [terms, setTerms] = useState([]);
+  const [versions, setVersions] = useState([]);
   const [oscar, setOscar] = useState(null);
 
   // Persist the theme, term, and some term data as cookies
@@ -33,6 +39,10 @@ const App = () => {
     ],
     [term, oscar, termData, setTerm, setOscar, patchTermData]
   );
+  const versionsContextValue = useMemo(() => [versions, setVersions], [
+    versions,
+    setVersions
+  ]);
 
   // display popup when first visiting the site
   useEffect(() => {
@@ -140,33 +150,35 @@ const App = () => {
 
   return (
     <ThemeContext.Provider value={themeContextValue}>
-      <TermsContext.Provider value={termsContextValue}>
-        <TermContext.Provider value={termContextValue}>
-          <div className={classes('App', className)}>
-            {/* On mobile, show the nav drawer + overlay */}
-            {mobile && (
-              <NavDrawer open={isDrawerOpen} onClose={closeDrawer}>
-                <NavMenu
-                  items={NAV_TABS}
-                  currentItem={currentTabIndex}
-                  onChangeItem={setTabIndex}
-                />
-              </NavDrawer>
-            )}
-            {/* The header controls top-level navigation
+      <VersionsContext.Provider value={versionsContextValue}>
+        <TermsContext.Provider value={termsContextValue}>
+          <TermContext.Provider value={termContextValue}>
+            <div className={classes('App', className)}>
+              {/* On mobile, show the nav drawer + overlay */}
+              {mobile && (
+                <NavDrawer open={isDrawerOpen} onClose={closeDrawer}>
+                  <NavMenu
+                    items={NAV_TABS}
+                    currentItem={currentTabIndex}
+                    onChangeItem={setTabIndex}
+                  />
+                </NavDrawer>
+              )}
+              {/* The header controls top-level navigation
             and is always present */}
-            <Header
-              currentTab={currentTabIndex}
-              onChangeTab={setTabIndex}
-              onToggleMenu={openDrawer}
-              tabs={NAV_TABS}
-            />
-            {currentTabIndex === 0 && <Scheduler />}
-            {currentTabIndex === 1 && <Map />}
-            <Attribution />
-          </div>
-        </TermContext.Provider>
-      </TermsContext.Provider>
+              <Header
+                currentTab={currentTabIndex}
+                onChangeTab={setTabIndex}
+                onToggleMenu={openDrawer}
+                tabs={NAV_TABS}
+              />
+              {currentTabIndex === 0 && <Scheduler />}
+              {currentTabIndex === 1 && <Map />}
+              <Attribution />
+            </div>
+          </TermContext.Provider>
+        </TermsContext.Provider>
+      </VersionsContext.Provider>
     </ThemeContext.Provider>
   );
 };

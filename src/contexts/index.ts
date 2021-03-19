@@ -10,6 +10,12 @@ export const ThemeContext = React.createContext<ThemeContextValue>([
   () => {}
 ]);
 
+export type VersionsContextValue = [string[], Setter<string[]>];
+export const VersionsContext = React.createContext<VersionsContextValue>([
+  [],
+  () => {}
+]);
+
 export type TermsContextValue = [string[], Setter<string[]>];
 export const TermsContext = React.createContext<TermsContextValue>([
   [],
