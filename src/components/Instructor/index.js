@@ -8,11 +8,11 @@ import {
 import { classes, simplifyName, unique } from '../../utils';
 import { ActionRow, Section } from '..';
 import './stylesheet.scss';
-import { TermContext } from '../../contexts';
+import { ScheduleContext } from '../../contexts';
 
 export default function Instructor({ className, color, name, sections, gpa }) {
   const [{ pinnedCrns, excludedCrns }, { patchTermData }] = useContext(
-    TermContext
+    ScheduleContext
   );
   const [expanded, setExpanded] = useState(true);
 

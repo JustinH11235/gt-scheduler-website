@@ -3,7 +3,7 @@ import { CLOSE, DAYS, OPEN } from '../../constants';
 import { classes, timeToShortString } from '../../utils';
 import { TimeBlocks } from '..';
 import './stylesheet.scss';
-import { TermContext } from '../../contexts';
+import { ScheduleContext } from '../../contexts';
 
 export default function Calendar({
   className,
@@ -12,7 +12,7 @@ export default function Calendar({
   capture,
   isAutosized
 }) {
-  const [{ pinnedCrns }] = useContext(TermContext);
+  const [{ pinnedCrns }] = useContext(ScheduleContext);
 
   return (
     <div

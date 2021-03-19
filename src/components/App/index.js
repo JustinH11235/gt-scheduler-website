@@ -7,7 +7,7 @@ import { Header, Scheduler, Map, NavDrawer, NavMenu, Attribution } from '..';
 import { Oscar } from '../../beans';
 import { useCookie, useJsonCookie, useMobile } from '../../hooks';
 import {
-  TermContext,
+  ScheduleContext,
   TermsContext,
   ThemeContext,
   VersionsContext
@@ -27,15 +27,16 @@ const App = () => {
   // Persist the theme, term, and some term data as cookies
   const [theme, setTheme] = useCookie('theme', 'dark');
   const [term, setTerm] = useCookie('term');
+  const [version_name, setVersionName] = useCookie('version');
   const [termData, patchTermData] = useJsonCookie(term, defaultTermData);
 
   // Memoize context values so that their references are stable
   const themeContextValue = useMemo(() => [theme, setTheme], [theme, setTheme]);
   const termsContextValue = useMemo(() => [terms, setTerms], [terms, setTerms]);
-  const termContextValue = useMemo(
+  const scheduleContextValue = useMemo(
     () => [
-      { term, oscar, ...termData },
-      { setTerm, setOscar, patchTermData }
+      { term, version_name, oscar, ...termData },
+      { setTerm, setVersionName, setOscar, patchTermData }
     ],
     [term, oscar, termData, setTerm, setOscar, patchTermData]
   );
@@ -152,7 +153,7 @@ const App = () => {
     <ThemeContext.Provider value={themeContextValue}>
       <VersionsContext.Provider value={versionsContextValue}>
         <TermsContext.Provider value={termsContextValue}>
-          <TermContext.Provider value={termContextValue}>
+          <ScheduleContext.Provider value={scheduleContextValue}>
             <div className={classes('App', className)}>
               {/* On mobile, show the nav drawer + overlay */}
               {mobile && (
@@ -176,7 +177,7 @@ const App = () => {
               {currentTabIndex === 1 && <Map />}
               <Attribution />
             </div>
-          </TermContext.Provider>
+          </ScheduleContext.Provider>
         </TermsContext.Provider>
       </VersionsContext.Provider>
     </ThemeContext.Provider>

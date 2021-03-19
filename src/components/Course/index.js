@@ -11,7 +11,7 @@ import {
 import { classes, getContentClassName } from '../../utils';
 import { ActionRow, Instructor, Palette, Prerequisite } from '..';
 import './stylesheet.scss';
-import { TermContext } from '../../contexts';
+import { ScheduleContext } from '../../contexts';
 
 export default function Course({ className, courseId, onAddCourse }) {
   const [expanded, setExpanded] = useState(false);
@@ -22,7 +22,7 @@ export default function Course({ className, courseId, onAddCourse }) {
   const [
     { oscar, term, desiredCourses, pinnedCrns, excludedCrns, colorMap },
     { patchTermData }
-  ] = useContext(TermContext);
+  ] = useContext(ScheduleContext);
 
   useEffect(() => {
     if (!isSearching) {

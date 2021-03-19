@@ -22,24 +22,31 @@ export const TermsContext = React.createContext<TermsContextValue>([
   () => {}
 ]);
 
-export type TermContextData = {
+export type ScheduleContextData = {
   term: string;
+  version_name: string;
   oscar: Oscar;
 } & TermData;
-export type TermContextSetters = {
+export type ScheduleContextSetters = {
   setTerm: Setter<string>;
+  setVersionName: Setter<string>;
   setOscar: Setter<Oscar>;
   patchTermData: Setter<Partial<TermData>>;
 };
-export type TermContextValue = [TermContextData, TermContextSetters];
-export const TermContext = React.createContext<TermContextValue>([
+export type ScheduleContextValue = [
+  ScheduleContextData,
+  ScheduleContextSetters
+];
+export const ScheduleContext = React.createContext<ScheduleContextValue>([
   {
     term: '',
+    version_name: '',
     oscar: (null as unknown) as Oscar,
     ...defaultTermData
   },
   {
     setTerm: () => {},
+    setVersionName: () => {},
     setOscar: () => {},
     patchTermData: () => {}
   }

@@ -9,12 +9,12 @@ import {
 import { classes, periodToString } from '../../utils';
 import { ActionRow } from '..';
 import './stylesheet.scss';
-import { OverlayCrnsContext, TermContext } from '../../contexts';
+import { OverlayCrnsContext, ScheduleContext } from '../../contexts';
 import { DELIVERY_MODES } from '../../constants';
 
 export default function Section({ className, section, pinned, color }) {
   const [{ term, pinnedCrns, excludedCrns }, { patchTermData }] = useContext(
-    TermContext
+    ScheduleContext
   );
   const [, setOverlayCrns] = useContext(OverlayCrnsContext);
   const [seating, setSeating] = useState([[], []]);

@@ -11,13 +11,13 @@ import { Course, CourseFilter } from '..';
 import { classes, getRandomColor } from '../../utils';
 import './stylesheet.scss';
 import { ASYNC_DELIVERY_MODE, CAMPUSES, DELIVERY_MODES } from '../../constants';
-import { TermContext } from '../../contexts';
+import { ScheduleContext } from '../../contexts';
 
 export default function CourseAdd({ className }) {
   const [
     { oscar, desiredCourses, excludedCrns, colorMap },
     { patchTermData }
-  ] = useContext(TermContext);
+  ] = useContext(ScheduleContext);
   const [keyword, setKeyword] = useState('');
   const [filter, setFilter] = useState({
     deliveryMode: [],

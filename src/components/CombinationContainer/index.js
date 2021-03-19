@@ -3,13 +3,13 @@ import { AutoSizer, List } from 'react-virtualized/dist/commonjs';
 import { Button, Calendar, Select } from '..';
 import 'react-virtualized/styles.css';
 import './stylesheet.scss';
-import { OverlayCrnsContext, TermContext } from '../../contexts';
+import { OverlayCrnsContext, ScheduleContext } from '../../contexts';
 
 export default function CombinationContainer() {
   const [
     { oscar, desiredCourses, pinnedCrns, excludedCrns, sortingOptionIndex },
     { patchTermData }
-  ] = useContext(TermContext);
+  ] = useContext(ScheduleContext);
   const [, setOverlayCrns] = useContext(OverlayCrnsContext);
 
   const handleResetPinnedCrns = useCallback(() => {
