@@ -78,7 +78,7 @@ const Header = ({
     vs.splice(vs.length - 1, 0, possibleVersions[vs.length - 1]);
     patchVersionsData({ versionList: vs });
     setVersionIndex(vs.length - 2);
-    setVersionName(vs[versionIndex + 1]);
+    setVersionName(vs[vs.length - 2]);
     if (versionIndex === 8) {
       vs.pop();
       patchVersionsData({ versionList: vs });
@@ -206,7 +206,8 @@ const Header = ({
             currentVersion === 'New'
               ? { icons: ['add'], functions: [null] }
               : {
-                  icons: ['edit', 'delete'],
+                  icons:
+                    versionList.length === 2 ? ['edit'] : ['edit', 'delete'],
                   functions: {
                     edit: (name: string) => {
                       patchVersionsData({
@@ -218,15 +219,26 @@ const Header = ({
                         })
                       });
                     },
-                    delete: () => {
-                      setVersionIndex(versionIndex);
-                      setVersionName(versionList[versionIndex]);
-                      patchVersionsData({
-                        versionList: versionList.filter((item, i) => {
-                          return i !== index;
-                        })
-                      });
-                    }
+                    delete:
+                      versionList.length === 2
+                        ? null
+                        : () => {
+                            const newList = versionList.filter((item, i) => {
+                              return i !== index;
+                            });
+                            patchVersionsData({
+                              versionList:
+                                versionList[versionList.length - 1] !== 'New'
+                                  ? newList.concat(['New'])
+                                  : newList
+                            });
+                            const next =
+                              index <= versionIndex
+                                ? versionIndex - 1
+                                : versionIndex;
+                            setVersionIndex(next);
+                            setVersionName(newList[next]);
+                          }
                   }
                 }
         }))}
