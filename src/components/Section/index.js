@@ -13,9 +13,10 @@ import { OverlayCrnsContext, ScheduleContext } from '../../contexts';
 import { DELIVERY_MODES } from '../../constants';
 
 export default function Section({ className, section, pinned, color }) {
-  const [{ term, pinnedCrns, excludedCrns }, { patchTermData }] = useContext(
-    ScheduleContext
-  );
+  const [
+    { term, pinnedCrns, excludedCrns },
+    { patchScheduleData }
+  ] = useContext(ScheduleContext);
   const [, setOverlayCrns] = useContext(OverlayCrnsContext);
   const [seating, setSeating] = useState([[], []]);
 
@@ -29,28 +30,28 @@ export default function Section({ className, section, pinned, color }) {
 
   const excludeSection = useCallback(
     (sect) => {
-      patchTermData({
+      patchScheduleData({
         excludedCrns: [...excludedCrns, sect.crn],
         pinnedCrns: pinnedCrns.filter((crn) => crn !== sect.crn)
       });
     },
-    [pinnedCrns, excludedCrns, patchTermData]
+    [pinnedCrns, excludedCrns, patchScheduleData]
   );
 
   const pinSection = useCallback(
     (sect) => {
       if (pinnedCrns.includes(sect.crn)) {
-        patchTermData({
+        patchScheduleData({
           pinnedCrns: pinnedCrns.filter((crn) => crn !== sect.crn)
         });
       } else {
-        patchTermData({
+        patchScheduleData({
           pinnedCrns: [...pinnedCrns, sect.crn],
           excludedCrns: excludedCrns.filter((crn) => crn !== sect.crn)
         });
       }
     },
-    [pinnedCrns, excludedCrns, patchTermData]
+    [pinnedCrns, excludedCrns, patchScheduleData]
   );
 
   return (

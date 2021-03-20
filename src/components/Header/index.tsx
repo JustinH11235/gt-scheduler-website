@@ -24,7 +24,12 @@ import { PNG_SCALE_FACTOR } from '../../constants';
 import ics from '../../libs/ics';
 import { Button, Calendar, Select, Tab } from '..';
 import { useMobile } from '../../hooks';
-import { ScheduleContext, TermsContext, ThemeContext } from '../../contexts';
+import {
+  ScheduleContext,
+  TermsContext,
+  ThemeContext,
+  VersionsContext
+} from '../../contexts';
 import { ICS } from '../../types';
 
 export type HeaderProps = {
@@ -44,13 +49,13 @@ const Header = ({
   onToggleMenu,
   tabs
 }: HeaderProps) => {
-  const [{ term, oscar, pinnedCrns }, { setTerm }] = useContext(
+  const [{ term, oscar, pinnedCrns }, { setTerm, setVersionName }] = useContext(
     ScheduleContext
   );
   const [terms] = useContext(TermsContext);
+  const [versions, setVersions] = useContext(VersionsContext);
   const [theme, setTheme] = useContext(ThemeContext);
   const [versionIndex, setVersionIndex] = useState(1);
-  const [versionList, setVersionList] = useState(['Primary', 'New']);
   const possibleVersions = [
     'Primary',
     'Secondary',
@@ -66,19 +71,21 @@ const Header = ({
   const captureRef = useRef<HTMLDivElement>(null);
 
   const addVersion = () => {
-    versionList.splice(
-      versionList.length - 1,
+    versions.splice(
+      versions.length - 1,
       0,
-      possibleVersions[versionList.length - 1]
+      possibleVersions[versions.length - 1]
     );
-    setVersionIndex(versionList.length - 1);
+    setVersionIndex(versions.length - 1);
+    setVersionName(versions[versionIndex - 1]);
     if (versionIndex === 9) {
-      versionList.pop();
+      versions.pop();
     }
   };
 
   const setVersionIndexBasedOnText = (text: string) => {
-    setVersionIndex(versionList.indexOf(text) + 1);
+    setVersionIndex(versions.indexOf(text) + 1);
+    setVersionName(versions[versionIndex - 1]);
   };
 
   const handleThemeChange = useCallback(() => {
@@ -187,8 +194,8 @@ const Header = ({
 
       {/* Version selector */}
       <Select
-        value={versionList[versionIndex - 1]}
-        options={versionList.map((currentVersion, index) => ({
+        value={versions[versionIndex - 1]}
+        options={versions.map((currentVersion, index) => ({
           innerValue: currentVersion,
           innerLabel: currentVersion,
           onClick:
@@ -200,8 +207,8 @@ const Header = ({
                   icons: ['edit', 'delete'],
                   functions: {
                     edit: (name: string) => {
-                      setVersionList(
-                        versionList.map((item, i) => {
+                      setVersions(
+                        versions.map((item, i) => {
                           if (i === index) {
                             return name;
                           }
@@ -211,8 +218,9 @@ const Header = ({
                     },
                     delete: () => {
                       setVersionIndex(versionIndex - 1);
-                      setVersionList(
-                        versionList.filter((item, i) => {
+                      setVersionName(versions[versionIndex - 1]);
+                      setVersions(
+                        versions.filter((item, i) => {
                           return i !== index;
                         })
                       );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Theme, defaultTermData, TermData } from '../types';
+import { Theme, defaultScheduleData, ScheduleData } from '../types';
 import Oscar from '../beans/Oscar';
 
 type Setter<T> = (next: T) => void;
@@ -24,14 +24,14 @@ export const TermsContext = React.createContext<TermsContextValue>([
 
 export type ScheduleContextData = {
   term: string;
-  version_name: string;
+  versionName: string;
   oscar: Oscar;
-} & TermData;
+} & ScheduleData;
 export type ScheduleContextSetters = {
   setTerm: Setter<string>;
   setVersionName: Setter<string>;
   setOscar: Setter<Oscar>;
-  patchTermData: Setter<Partial<TermData>>;
+  patchScheduleData: Setter<Partial<ScheduleData>>;
 };
 export type ScheduleContextValue = [
   ScheduleContextData,
@@ -40,15 +40,15 @@ export type ScheduleContextValue = [
 export const ScheduleContext = React.createContext<ScheduleContextValue>([
   {
     term: '',
-    version_name: '',
+    versionName: '',
     oscar: (null as unknown) as Oscar,
-    ...defaultTermData
+    ...defaultScheduleData
   },
   {
     setTerm: () => {},
     setVersionName: () => {},
     setOscar: () => {},
-    patchTermData: () => {}
+    patchScheduleData: () => {}
   }
 ]);
 

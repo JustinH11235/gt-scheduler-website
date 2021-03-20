@@ -16,7 +16,7 @@ import { ScheduleContext } from '../../contexts';
 export default function CourseAdd({ className }) {
   const [
     { oscar, desiredCourses, excludedCrns, colorMap },
-    { patchTermData }
+    { patchScheduleData }
   ] = useContext(ScheduleContext);
   const [keyword, setKeyword] = useState('');
   const [filter, setFilter] = useState({
@@ -76,7 +76,7 @@ export default function CourseAdd({ className }) {
           return !timeDecided || !filterMatch;
         })
         .map((section) => section.crn);
-      patchTermData({
+      patchScheduleData({
         desiredCourses: [...desiredCourses, course.id],
         excludedCrns: [...excludedCrns, ...toBeExcludedCrns],
         colorMap: { ...colorMap, [course.id]: getRandomColor() }
@@ -84,7 +84,14 @@ export default function CourseAdd({ className }) {
       setKeyword('');
       inputRef.current.focus();
     },
-    [filter, desiredCourses, excludedCrns, colorMap, inputRef, patchTermData]
+    [
+      filter,
+      desiredCourses,
+      excludedCrns,
+      colorMap,
+      inputRef,
+      patchScheduleData
+    ]
   );
 
   const handleKeyDown = useCallback(

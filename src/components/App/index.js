@@ -12,7 +12,7 @@ import {
   ThemeContext,
   VersionsContext
 } from '../../contexts';
-import { defaultTermData } from '../../types';
+import { defaultScheduleData } from '../../types';
 
 import 'react-virtualized/styles.css';
 import './stylesheet.scss';
@@ -21,24 +21,27 @@ const NAV_TABS = ['Scheduler', 'Map'];
 
 const App = () => {
   const [terms, setTerms] = useState([]);
-  const [versions, setVersions] = useState([]);
+  const [versions, setVersions] = useState(['Primary', 'New']);
   const [oscar, setOscar] = useState(null);
 
   // Persist the theme, term, and some term data as cookies
   const [theme, setTheme] = useCookie('theme', 'dark');
   const [term, setTerm] = useCookie('term');
-  const [version_name, setVersionName] = useCookie('version');
-  const [termData, patchTermData] = useJsonCookie(term, defaultTermData);
+  const [versionName, setVersionName] = useCookie('version');
+  const [scheduleData, patchScheduleData] = useJsonCookie(
+    term ? term.concat(versionName) : ''.concat(versionName),
+    defaultScheduleData
+  );
 
   // Memoize context values so that their references are stable
   const themeContextValue = useMemo(() => [theme, setTheme], [theme, setTheme]);
   const termsContextValue = useMemo(() => [terms, setTerms], [terms, setTerms]);
   const scheduleContextValue = useMemo(
     () => [
-      { term, version_name, oscar, ...termData },
-      { setTerm, setVersionName, setOscar, patchTermData }
+      { term, versionName, oscar, ...scheduleData },
+      { setTerm, setVersionName, setOscar, patchScheduleData }
     ],
-    [term, oscar, termData, setTerm, setOscar, patchTermData]
+    [term, oscar, scheduleData, setTerm, setOscar, patchScheduleData]
   );
   const versionsContextValue = useMemo(() => [versions, setVersions], [
     versions,
@@ -123,6 +126,13 @@ const App = () => {
       setTerm(recentTerm);
     }
   }, [terms, term, setTerm]);
+
+  // Initialize the versionName to Primary
+  useEffect(() => {
+    if (!versionName) {
+      setVersionName('Primary');
+    }
+  }, [versionName, setVersionName]);
 
   // Re-render when the page is re-sized to become mobile/desktop
   // (desktop is >= 1024 px wide)

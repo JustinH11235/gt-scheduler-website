@@ -8,17 +8,17 @@ import { OverlayCrnsContext, ScheduleContext } from '../../contexts';
 export default function CombinationContainer() {
   const [
     { oscar, desiredCourses, pinnedCrns, excludedCrns, sortingOptionIndex },
-    { patchTermData }
+    { patchScheduleData }
   ] = useContext(ScheduleContext);
   const [, setOverlayCrns] = useContext(OverlayCrnsContext);
 
   const handleResetPinnedCrns = useCallback(() => {
     if (window.confirm('Are you sure to reset sections you selected?')) {
-      patchTermData({
+      patchScheduleData({
         pinnedCrns: []
       });
     }
-  }, [patchTermData]);
+  }, [patchScheduleData]);
 
   const combinations = useMemo(
     () => oscar.getCombinations(desiredCourses, pinnedCrns, excludedCrns),
@@ -37,7 +37,8 @@ export default function CombinationContainer() {
           innerValue: i,
           innerLabel: sortingOption.label,
           // eslint-disable-next-line no-shadow
-          onClick: (sortingOptionIndex) => patchTermData({ sortingOptionIndex })
+          onClick: (sortingOptionIndex) =>
+            patchScheduleData({ sortingOptionIndex })
         }))}
       />
       <Button
@@ -65,7 +66,7 @@ export default function CombinationContainer() {
                       onMouseEnter={() => setOverlayCrns(crns)}
                       onMouseLeave={() => setOverlayCrns([])}
                       onClick={() =>
-                        patchTermData({
+                        patchScheduleData({
                           pinnedCrns: [...pinnedCrns, ...crns]
                         })
                       }
