@@ -53,7 +53,7 @@ const Header = ({
     ScheduleContext
   );
   const [terms] = useContext(TermsContext);
-  const [versions, setVersions] = useContext(VersionsContext);
+  const [{ versionList }, { patchVersionsData }] = useContext(VersionsContext);
   const [theme, setTheme] = useContext(ThemeContext);
   const [versionIndex, setVersionIndex] = useState(1);
   const possibleVersions = [
@@ -71,23 +71,20 @@ const Header = ({
   const captureRef = useRef<HTMLDivElement>(null);
 
   const addVersion = () => {
-    versions.splice(
-      versions.length - 1,
-      0,
-      possibleVersions[versions.length - 1]
-    );
-    setVersions(versions);
-    setVersionIndex(versions.length - 1);
-    setVersionName(versions[versionIndex - 1]);
+    const vs = [...versionList];
+    vs.splice(vs.length - 1, 0, possibleVersions[vs.length - 1]);
+    patchVersionsData({ versionList: vs });
+    setVersionIndex(versionList.length - 1);
+    setVersionName(versionList[versionIndex - 1]);
     if (versionIndex === 9) {
-      versions.pop();
-      setVersions(versions);
+      vs.pop();
+      patchVersionsData({ versionList: vs });
     }
   };
 
   const setVersionIndexBasedOnText = (text: string) => {
-    setVersionIndex(versions.indexOf(text) + 1);
-    setVersionName(versions[versionIndex - 1]);
+    setVersionIndex(versionList.indexOf(text) + 1);
+    setVersionName(versionList[versionIndex - 1]);
   };
 
   const handleThemeChange = useCallback(() => {
@@ -196,8 +193,8 @@ const Header = ({
 
       {/* Version selector */}
       <Select
-        value={versions[versionIndex - 1]}
-        options={versions.map((currentVersion, index) => ({
+        value={versionList[versionIndex - 1]}
+        options={versionList.map((currentVersion, index) => ({
           innerValue: currentVersion,
           innerLabel: currentVersion,
           onClick:
@@ -209,23 +206,23 @@ const Header = ({
                   icons: ['edit', 'delete'],
                   functions: {
                     edit: (name: string) => {
-                      setVersions(
-                        versions.map((item, i) => {
+                      patchVersionsData({
+                        versionList: versionList.map((item, i) => {
                           if (i === index) {
                             return name;
                           }
                           return item;
                         })
-                      );
+                      });
                     },
                     delete: () => {
                       setVersionIndex(versionIndex - 1);
-                      setVersionName(versions[versionIndex - 1]);
-                      setVersions(
-                        versions.filter((item, i) => {
+                      setVersionName(versionList[versionIndex - 1]);
+                      patchVersionsData({
+                        versionList: versionList.filter((item, i) => {
                           return i !== index;
                         })
-                      );
+                      });
                     }
                   }
                 }

@@ -1,5 +1,11 @@
 import React from 'react';
-import { Theme, defaultScheduleData, ScheduleData } from '../types';
+import {
+  Theme,
+  defaultScheduleData,
+  ScheduleData,
+  VersionsData,
+  defaultVersionsData
+} from '../types';
 import Oscar from '../beans/Oscar';
 
 type Setter<T> = (next: T) => void;
@@ -10,16 +16,19 @@ export const ThemeContext = React.createContext<ThemeContextValue>([
   () => {}
 ]);
 
-export type VersionsContextValue = [string[], Setter<string[]>];
-export const VersionsContext = React.createContext<VersionsContextValue>([
-  [],
-  () => {}
-]);
-
 export type TermsContextValue = [string[], Setter<string[]>];
 export const TermsContext = React.createContext<TermsContextValue>([
   [],
   () => {}
+]);
+
+export type VersionsContextValue = [
+  VersionsData,
+  { patchVersionsData: Setter<Partial<VersionsData>> }
+];
+export const VersionsContext = React.createContext<VersionsContextValue>([
+  defaultVersionsData,
+  { patchVersionsData: () => {} }
 ]);
 
 export type ScheduleContextData = {

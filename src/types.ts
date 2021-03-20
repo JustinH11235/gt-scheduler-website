@@ -9,6 +9,14 @@ export type ScheduleData = {
   sortingOptionIndex: number;
 };
 
+export type VersionsData = {
+  versionList: string[];
+};
+
+export const defaultVersionsData: VersionsData = {
+  versionList: ['Primary', 'New']
+};
+
 export const defaultScheduleData: ScheduleData = {
   desiredCourses: [],
   pinnedCrns: [],
