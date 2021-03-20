@@ -76,10 +76,12 @@ const Header = ({
       0,
       possibleVersions[versions.length - 1]
     );
+    setVersions(versions);
     setVersionIndex(versions.length - 1);
     setVersionName(versions[versionIndex - 1]);
     if (versionIndex === 9) {
       versions.pop();
+      setVersions(versions);
     }
   };
 

@@ -21,12 +21,12 @@ const NAV_TABS = ['Scheduler', 'Map'];
 
 const App = () => {
   const [terms, setTerms] = useState([]);
-  const [versions, setVersions] = useState(['Primary', 'New']);
   const [oscar, setOscar] = useState(null);
 
-  // Persist the theme, term, and some term data as cookies
+  // Persist the theme, term, versions, and some schedule data as cookies
   const [theme, setTheme] = useCookie('theme', 'dark');
   const [term, setTerm] = useCookie('term');
+  const [versions, setVersions] = useCookie('versionList');
   const [versionName, setVersionName] = useCookie('version');
   const [scheduleData, patchScheduleData] = useJsonCookie(
     term ? term.concat(versionName) : ''.concat(versionName),
@@ -41,7 +41,16 @@ const App = () => {
       { term, versionName, oscar, ...scheduleData },
       { setTerm, setVersionName, setOscar, patchScheduleData }
     ],
-    [term, oscar, scheduleData, setTerm, setOscar, patchScheduleData]
+    [
+      term,
+      versionName,
+      oscar,
+      scheduleData,
+      setTerm,
+      setVersionName,
+      setOscar,
+      patchScheduleData
+    ]
   );
   const versionsContextValue = useMemo(() => [versions, setVersions], [
     versions,
@@ -133,6 +142,13 @@ const App = () => {
       setVersionName('Primary');
     }
   }, [versionName, setVersionName]);
+
+  // Initialize the versionList to [Primary, New]
+  useEffect(() => {
+    if (!versions) {
+      setVersions(['Primary', 'New']);
+    }
+  }, [versions, setVersions]);
 
   // Re-render when the page is re-sized to become mobile/desktop
   // (desktop is >= 1024 px wide)
