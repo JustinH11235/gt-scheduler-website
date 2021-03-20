@@ -49,13 +49,16 @@ const Header = ({
   onToggleMenu,
   tabs
 }: HeaderProps) => {
-  const [{ term, oscar, pinnedCrns }, { setTerm, setVersionName }] = useContext(
-    ScheduleContext
-  );
+  const [
+    { term, versionName, oscar, pinnedCrns },
+    { setTerm, setVersionName }
+  ] = useContext(ScheduleContext);
   const [terms] = useContext(TermsContext);
   const [{ versionList }, { patchVersionsData }] = useContext(VersionsContext);
   const [theme, setTheme] = useContext(ThemeContext);
-  const [versionIndex, setVersionIndex] = useState(1);
+  const [versionIndex, setVersionIndex] = useState(
+    versionList.indexOf(versionName)
+  );
   const possibleVersions = [
     'Primary',
     'Secondary',
@@ -74,17 +77,17 @@ const Header = ({
     const vs = [...versionList];
     vs.splice(vs.length - 1, 0, possibleVersions[vs.length - 1]);
     patchVersionsData({ versionList: vs });
-    setVersionIndex(versionList.length - 1);
-    setVersionName(versionList[versionIndex - 1]);
-    if (versionIndex === 9) {
+    setVersionIndex(vs.length - 2);
+    setVersionName(vs[versionIndex + 1]);
+    if (versionIndex === 8) {
       vs.pop();
       patchVersionsData({ versionList: vs });
     }
   };
 
   const setVersionIndexBasedOnText = (text: string) => {
-    setVersionIndex(versionList.indexOf(text) + 1);
-    setVersionName(versionList[versionIndex - 1]);
+    setVersionIndex(versionList.indexOf(text));
+    setVersionName(versionList[versionList.indexOf(text)]);
   };
 
   const handleThemeChange = useCallback(() => {
@@ -193,7 +196,7 @@ const Header = ({
 
       {/* Version selector */}
       <Select
-        value={versionList[versionIndex - 1]}
+        value={versionList[versionIndex]}
         options={versionList.map((currentVersion, index) => ({
           innerValue: currentVersion,
           innerLabel: currentVersion,
@@ -216,8 +219,8 @@ const Header = ({
                       });
                     },
                     delete: () => {
-                      setVersionIndex(versionIndex - 1);
-                      setVersionName(versionList[versionIndex - 1]);
+                      setVersionIndex(versionIndex);
+                      setVersionName(versionList[versionIndex]);
                       patchVersionsData({
                         versionList: versionList.filter((item, i) => {
                           return i !== index;
