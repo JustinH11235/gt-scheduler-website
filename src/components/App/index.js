@@ -131,9 +131,12 @@ const App = () => {
   // Set the term to be the first one if it is unset
   // (once the terms load)
   useEffect(() => {
-    if (!term) {
+    const t = Cookies.get('term');
+    if (!term && !t) {
       const [recentTerm] = terms;
       setTerm(recentTerm);
+    } else if (t) {
+      setTerm(t);
     }
   }, [terms, term, setTerm]);
 
