@@ -40,10 +40,13 @@ export default function Select({ className, value, options }) {
       if (versionName === '') {
         setVersionName('Blank');
       }
-      iconsAndFunctions.functions.edit(versionName);
-      setCurrentValue(innerValue === currentValue ? versionName : currentValue);
-      optionsObtained[index].innerValue = versionName;
-      optionsObtained[index].innerLabel = versionName;
+      if (iconsAndFunctions.functions.edit(versionName)) {
+        setCurrentValue(
+          innerValue === currentValue ? versionName : currentValue
+        );
+        optionsObtained[index].innerValue = versionName;
+        optionsObtained[index].innerLabel = versionName;
+      }
       setInputting(false);
       setInputIndex('');
     }
@@ -104,14 +107,15 @@ export default function Select({ className, value, options }) {
                         if (versionName === '') {
                           setVersionName('Blank');
                         }
-                        iconsAndFunctions.functions.edit(versionName);
-                        setCurrentValue(
-                          innerValue === currentValue
-                            ? versionName
-                            : currentValue
-                        );
-                        optionsObtained[index].innerValue = versionName;
-                        optionsObtained[index].innerLabel = versionName;
+                        if (iconsAndFunctions.functions.edit(versionName)) {
+                          setCurrentValue(
+                            innerValue === currentValue
+                              ? versionName
+                              : currentValue
+                          );
+                          optionsObtained[index].innerValue = versionName;
+                          optionsObtained[index].innerLabel = versionName;
+                        }
                         setInputting(false);
                         setInputIndex('');
                       } else {
