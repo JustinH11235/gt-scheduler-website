@@ -17,6 +17,7 @@ export default function Select({ className, value, options }) {
   const [inputting, setInputting] = useState(false);
   const [versionName, setVersionName] = useState('');
   const [currentValue, setCurrentValue] = useState(value);
+  const [showButtons, setShowButtons] = useState(false);
 
   useEffect(() => {
     setCurrentValue(value);
@@ -77,7 +78,13 @@ export default function Select({ className, value, options }) {
               },
               index
             ) => (
-              <div className="option" key={innerValue + innerLabel}>
+              <div
+                className="option"
+                key={innerValue + innerLabel}
+                onFocus={() => setShowButtons(true)}
+                onMouseOver={() => setShowButtons(true)}
+                onMouseLeave={() => setShowButtons(false)}
+              >
                 {inputting && inputIndex === innerValue ? (
                   <input
                     /* eslint-disable-next-line jsx-a11y/no-autofocus */
@@ -130,7 +137,11 @@ export default function Select({ className, value, options }) {
                       }
                     }}
                   >
-                    <FontAwesomeIcon fixedWidth icon={faEdit} />
+                    <FontAwesomeIcon
+                      style={{ visibility: showButtons ? 'visible' : 'hidden' }}
+                      fixedWidth
+                      icon={faEdit}
+                    />
                   </Button>
                 ) : null}
                 {iconsAndFunctions.icons.includes('delete') ? (
@@ -154,7 +165,11 @@ export default function Select({ className, value, options }) {
                       });
                     }}
                   >
-                    <FontAwesomeIcon fixedWidth icon={faTrashAlt} />
+                    <FontAwesomeIcon
+                      style={{ visibility: showButtons ? 'visible' : 'hidden' }}
+                      fixedWidth
+                      icon={faTrashAlt}
+                    />
                   </Button>
                 ) : null}
               </div>
