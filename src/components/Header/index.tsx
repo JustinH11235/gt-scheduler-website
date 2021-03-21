@@ -81,7 +81,12 @@ const Header = ({
 
   const addVersion = () => {
     const vs = [...versionList];
-    vs.splice(vs.length - 1, 0, possibleVersions[vs.length - 1]);
+    let cur = vs.length - 1;
+    while (versionList.includes(possibleVersions[cur]) && cur <= 9) {
+      cur += 1;
+    }
+    const placeholder = cur === 10 ? 'new version' : possibleVersions[cur];
+    vs.splice(vs.length - 1, 0, placeholder);
     const patch = versionLists;
     patch[term] = vs;
     patchVersionsData(patch);
