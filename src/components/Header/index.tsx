@@ -199,7 +199,11 @@ const Header = ({
         options={terms.map((currentTerm) => ({
           innerValue: currentTerm,
           innerLabel: getSemesterName(currentTerm),
-          onClick: setTerm
+          onClick: (t: string) => {
+            setVersionIndex(0);
+            setVersionName(versionLists[t][0]);
+            setTerm(t);
+          }
         }))}
         className="semester"
       />
