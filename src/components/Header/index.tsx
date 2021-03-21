@@ -259,7 +259,7 @@ const Header = ({
                                 : newList;
                             patchVersionsData(patch);
                             const next =
-                              index <= versionIndex
+                              index <= versionIndex && versionIndex > 1
                                 ? versionIndex - 1
                                 : versionIndex;
                             setVersionIndex(next);
