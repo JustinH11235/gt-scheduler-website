@@ -92,7 +92,11 @@ export default function Select({ className, value, options }) {
                     }}
                   />
                 ) : (
-                  <Button key={innerValue} onClick={() => onClick(innerValue)}>
+                  <Button
+                    className="option-text"
+                    key={innerValue}
+                    onClick={() => onClick(innerValue)}
+                  >
                     {iconsAndFunctions.icons.includes('add') ? (
                       <FontAwesomeIcon fixedWidth icon={faPlus} />
                     ) : null}

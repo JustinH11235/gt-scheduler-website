@@ -39,6 +39,14 @@
         flex-shrink: 0;
         flex-grow: 1;
       }
+      .option-text {
+        width: 87px;
+        white-space: nowrap;
+        overflow: hidden;
+        display: block;
+        text-overflow: ellipsis;
+      }
+
       input{
         padding: 4px;
         margin-left: 2px;
