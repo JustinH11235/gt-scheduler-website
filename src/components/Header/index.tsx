@@ -59,7 +59,8 @@ const Header = ({
     { setTerm, setVersionName }
   ] = useContext(ScheduleContext);
   const [terms] = useContext(TermsContext);
-  const [{ versionList }, { patchVersionsData }] = useContext(VersionsContext);
+  const [versionLists, { patchVersionsData }] = useContext(VersionsContext);
+  const versionList = versionLists[term];
   const [theme, setTheme] = useContext(ThemeContext);
   const [versionIndex, setVersionIndex] = useState(
     versionList.indexOf(versionName)
@@ -81,12 +82,14 @@ const Header = ({
   const addVersion = () => {
     const vs = [...versionList];
     vs.splice(vs.length - 1, 0, possibleVersions[vs.length - 1]);
-    patchVersionsData({ versionList: vs });
+    const patch = versionLists;
+    patch[term] = vs;
+    patchVersionsData(patch);
     setVersionIndex(vs.length - 2);
     setVersionName(vs[vs.length - 2]);
     if (versionIndex === 8) {
       vs.pop();
-      patchVersionsData({ versionList: vs });
+      patchVersionsData(patch);
     }
   };
 
@@ -223,14 +226,14 @@ const Header = ({
                         });
                         return false;
                       }
-                      patchVersionsData({
-                        versionList: versionList.map((item, i) => {
-                          if (i === index) {
-                            return name;
-                          }
-                          return item;
-                        })
+                      const patch = versionLists;
+                      patch[term] = versionList.map((item, i) => {
+                        if (i === index) {
+                          return name;
+                        }
+                        return item;
                       });
+                      patchVersionsData(patch);
                       return true;
                     },
                     delete:
@@ -240,12 +243,12 @@ const Header = ({
                             const newList = versionList.filter((item, i) => {
                               return i !== index;
                             });
-                            patchVersionsData({
-                              versionList:
-                                versionList[versionList.length - 1] !== 'New'
-                                  ? newList.concat(['New'])
-                                  : newList
-                            });
+                            const patch = versionLists;
+                            patch[term] =
+                              versionList[versionList.length - 1] !== 'New'
+                                ? newList.concat(['New'])
+                                : newList;
+                            patchVersionsData(patch);
                             const next =
                               index <= versionIndex
                                 ? versionIndex - 1

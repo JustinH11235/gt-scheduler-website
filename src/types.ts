@@ -10,11 +10,7 @@ export type ScheduleData = {
 };
 
 export type VersionsData = {
-  versionList: string[];
-};
-
-export const defaultVersionsData: VersionsData = {
-  versionList: ['Primary', 'New']
+  [key: string]: string[];
 };
 
 export const defaultScheduleData: ScheduleData = {

@@ -3,8 +3,7 @@ import {
   Theme,
   defaultScheduleData,
   ScheduleData,
-  VersionsData,
-  defaultVersionsData
+  VersionsData
 } from '../types';
 import Oscar from '../beans/Oscar';
 
@@ -27,7 +26,7 @@ export type VersionsContextValue = [
   { patchVersionsData: Setter<Partial<VersionsData>> }
 ];
 export const VersionsContext = React.createContext<VersionsContextValue>([
-  defaultVersionsData,
+  {},
   { patchVersionsData: () => {} }
 ]);
 
