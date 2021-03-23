@@ -46,10 +46,19 @@
         display: block;
         text-overflow: ellipsis;
       }
+      .option-button {
+        padding: 4px;
+        visibility: hidden;
+      }
 
       input{
         padding: 4px;
         margin-left: 2px;
+      }
+    }
+    .option:hover {
+      .option-button {
+        visibility: visible;
       }
     }
   }

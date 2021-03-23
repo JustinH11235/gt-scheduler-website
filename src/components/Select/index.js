@@ -17,7 +17,6 @@ export default function Select({ className, value, options }) {
   const [inputting, setInputting] = useState(false);
   const [versionName, setVersionName] = useState('');
   const [currentValue, setCurrentValue] = useState(value);
-  const [showButtons, setShowButtons] = useState(false);
 
   useEffect(() => {
     setCurrentValue(value);
@@ -78,13 +77,7 @@ export default function Select({ className, value, options }) {
               },
               index
             ) => (
-              <div
-                className="option"
-                key={innerValue + innerLabel}
-                onFocus={() => setShowButtons(true)}
-                onMouseOver={() => setShowButtons(true)}
-                onMouseLeave={() => setShowButtons(false)}
-              >
+              <div className="option" key={innerValue + innerLabel}>
                 {inputting && inputIndex === innerValue ? (
                   <input
                     /* eslint-disable-next-line jsx-a11y/no-autofocus */
@@ -113,6 +106,7 @@ export default function Select({ className, value, options }) {
                 {iconsAndFunctions.icons.includes('edit') ? (
                   <Button
                     key={`${innerValue}edit`}
+                    className="option-button"
                     onClick={(e) => {
                       if (innerValue === inputIndex) {
                         if (versionName === '') {
@@ -137,16 +131,13 @@ export default function Select({ className, value, options }) {
                       }
                     }}
                   >
-                    <FontAwesomeIcon
-                      style={{ visibility: showButtons ? 'visible' : 'hidden' }}
-                      fixedWidth
-                      icon={faEdit}
-                    />
+                    <FontAwesomeIcon fixedWidth icon={faEdit} />
                   </Button>
                 ) : null}
                 {iconsAndFunctions.icons.includes('delete') ? (
                   <Button
                     key={`${innerValue}delete`}
+                    className="option-button"
                     onClick={() => {
                       swal({
                         buttons: ['Cancel', 'Delete'],
@@ -165,11 +156,7 @@ export default function Select({ className, value, options }) {
                       });
                     }}
                   >
-                    <FontAwesomeIcon
-                      style={{ visibility: showButtons ? 'visible' : 'hidden' }}
-                      fixedWidth
-                      icon={faTrashAlt}
-                    />
+                    <FontAwesomeIcon fixedWidth icon={faTrashAlt} />
                   </Button>
                 ) : null}
               </div>
