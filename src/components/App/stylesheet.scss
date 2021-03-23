@@ -96,12 +96,26 @@
   padding: 25px 10px;
 
   h1 { color: #444444; font-weight: 800; }
-  p  { color: #555555; text-align: left; }
   a {
     &:hover { color: #ffaa5a; }
     transition: all 0.33s ease;
     color: #f37f6a;
     font-weight: 700;
+  }
+}
+
+.swal-modal.light {
+  background-color: $theme-light-background;
+  color: $theme-light-foreground;
+  .swal-text{
+    color: $theme-light-foreground;
+  }
+}
+.swal-modal.dark{
+  background-color: $theme-dark-background;
+  color: $theme-dark-foreground;
+  .swal-text{
+    color: $theme-dark-foreground;
   }
 }
 

@@ -231,6 +231,7 @@ const Header = ({
                     edit: (name: string) => {
                       if (versionList.includes(name)) {
                         swal({
+                          className: `${theme}`,
                           text: 'Same version name already in use!'
                         });
                         return false;

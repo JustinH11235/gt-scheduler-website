@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCaretDown,
@@ -10,6 +10,7 @@ import swal from '@sweetalert/with-react';
 import { classes } from '../../utils';
 import { Button } from '..';
 import './stylesheet.scss';
+import { ThemeContext } from '../../contexts';
 
 export default function Select({ className, value, options }) {
   const [opened, setOpened] = useState(false);
@@ -17,6 +18,7 @@ export default function Select({ className, value, options }) {
   const [inputting, setInputting] = useState(false);
   const [versionName, setVersionName] = useState('');
   const [currentValue, setCurrentValue] = useState(value);
+  const [theme] = useContext(ThemeContext);
 
   useEffect(() => {
     setCurrentValue(value);
@@ -82,6 +84,7 @@ export default function Select({ className, value, options }) {
                   <input
                     /* eslint-disable-next-line jsx-a11y/no-autofocus */
                     autoFocus
+                    className="option-input"
                     type="text"
                     key={`input${innerValue}`}
                     value={versionName}
@@ -141,13 +144,15 @@ export default function Select({ className, value, options }) {
                     onClick={() => {
                       swal({
                         buttons: ['Cancel', 'Delete'],
+                        className: `${theme}`,
                         content: (
-                          <div>
-                            <p>
-                              Are you sure you want to delete {innerLabel}{' '}
-                              schedule?
-                            </p>
-                          </div>
+                          <p>
+                            {/* eslint-disable-next-line max-len */}
+                            {/* eslint-disable-next-line react/no-unescaped-entities */}
+                            Are you sure you want to delete "{innerLabel}
+                            {'" '}
+                            schedule?
+                          </p>
                         )
                       }).then((val) => {
                         if (val) {

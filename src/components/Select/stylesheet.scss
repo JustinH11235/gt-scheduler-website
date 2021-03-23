@@ -51,9 +51,10 @@
         visibility: hidden;
       }
 
-      input{
-        padding: 4px;
-        margin-left: 2px;
+      .option-input{
+        padding: 8px;
+        margin: 4px;
+        width: 85px;
       }
     }
     .option:hover {
