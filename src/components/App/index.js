@@ -132,10 +132,10 @@ const App = () => {
   // (once the terms load)
   useEffect(() => {
     const t = Cookies.get('term');
-    if (!term && !t) {
+    if (!term && (!t || t === 'undefined')) {
       const [recentTerm] = terms;
       setTerm(recentTerm);
-    } else if (t) {
+    } else if (t && t !== 'undefined') {
       setTerm(t);
     }
   }, [terms, term, setTerm]);
